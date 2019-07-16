@@ -1,6 +1,7 @@
 const fs = require(`fs`);
 const readline = require(`readline-Sync`);
 const fControl = require(`./fControl`);
+const text = require(`./textControl`);
 
 let contacts = fControl.open();
 
@@ -63,10 +64,10 @@ function filter() {
 	let key = readline.question('Enter search Keyword: ');
 
 	let a =  contacts.filter(function (x) {
-		return x.name.toLowerCase().indexOf(key.toLowerCase()) != -1;
+		return text.removeAccents(x.name).toLowerCase().indexOf(text.removeAccents(key).toLowerCase()) != -1;
 	});
 	let b = contacts.filter(function (x) {
-		return x.phone.toLowerCase().indexOf(key.toLowerCase()) != -1;
+		return text.removeAccents(x.phone).toLowerCase().indexOf(text.removeAccents(key).toLowerCase()) != -1;
 	});
 	if (a.length) {
 		console.log('Filter by name:')
@@ -80,6 +81,7 @@ function filter() {
 			console.log((parseInt(i)+1)+'.', b[i]);
 	}
 }
+filter();
 
 function edit() {
 	show();
